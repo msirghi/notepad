@@ -3,7 +3,6 @@ package notepad.windows;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.security.Key;
 import java.util.logging.Logger;
 
 public class ChangeFontSize extends JFrame {
