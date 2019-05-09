@@ -2,9 +2,8 @@ package notepad.windows;
 
 import notepad.features.Highlighter;
 
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
+import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -20,7 +19,6 @@ import java.io.IOException;
  * @author Serven
  */
 public class MainWindow extends javax.swing.JFrame {
-
     private AboutWindow aboutWindow;
     private ChangeFontSize changeFontSize;
     private String filename;
@@ -29,6 +27,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     public MainWindow() {
         initComponents();
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
         changeFontSize = new ChangeFontSize(this);
         aboutWindow = new AboutWindow(this);
     }
