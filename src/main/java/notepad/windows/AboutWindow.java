@@ -13,7 +13,7 @@ public class AboutWindow extends JFrame {
         display(f2);
     }
 
-    private void display(JFrame f2) {
+    private void display(JFrame aboutWindow) {
         JMenu about = new JMenu("About");
         JMenuBar bar = mainWindow.getJMenuBar();
         bar.add(about);
@@ -26,11 +26,11 @@ public class AboutWindow extends JFrame {
         frame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                f2.setSize(300,300);
-                f2.setResizable(false);
-                f2.setLocationRelativeTo(null);
-                f2.setVisible(true);
-                f2.add(label);
+                aboutWindow.setSize(300,300);
+                aboutWindow.setResizable(false);
+                aboutWindow.setLocationRelativeTo(null);
+                aboutWindow.setVisible(true);
+                aboutWindow.add(label);
             }
         });
     }

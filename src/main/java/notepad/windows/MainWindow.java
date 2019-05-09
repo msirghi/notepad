@@ -22,13 +22,19 @@ import java.io.IOException;
 public class MainWindow extends javax.swing.JFrame {
 
     private AboutWindow aboutWindow;
+    private ChangeFontSize changeFontSize;
     private String filename;
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
 
     public MainWindow() {
         initComponents();
+        changeFontSize = new ChangeFontSize(this);
         aboutWindow = new AboutWindow(this);
+    }
+
+    public void changeSize(int size) {
+        textArea.setFont(new Font("Courier", Font.BOLD, size));
     }
 
     @SuppressWarnings("unchecked")
