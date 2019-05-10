@@ -22,16 +22,12 @@ public class AboutWindow extends JFrame {
         JLabel textInAbout = new JLabel("About Window", JLabel.CENTER);
         textInAbout.setAlignmentX(0);
         textInAbout.setAlignmentY(0);
-
-        aboutFrame.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                aboutWindow.setSize(300,300);
-                aboutWindow.setResizable(false);
-                aboutWindow.setLocationRelativeTo(null);
-                aboutWindow.setVisible(true);
-                aboutWindow.add(textInAbout);
-            }
+        aboutFrame.addActionListener(e -> {
+            aboutWindow.setSize(300,300);
+            aboutWindow.setResizable(false);
+            aboutWindow.setLocationRelativeTo(null);
+            aboutWindow.setVisible(true);
+            aboutWindow.add(textInAbout);
         });
     }
 }
