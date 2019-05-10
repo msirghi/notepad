@@ -6,31 +6,31 @@ import java.awt.event.ActionListener;
 
 public class AboutWindow extends JFrame {
     private MainWindow mainWindow;
+    private JMenuBar bar;
 
     public AboutWindow(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
-        JFrame f2 = new JFrame("About");
-        display(f2);
+        bar = mainWindow.getJMenuBar();
+        displayAboutWindow(new JFrame("About"));
     }
 
-    private void display(JFrame f2) {
+    private void displayAboutWindow(JFrame aboutWindow) {
         JMenu about = new JMenu("About");
-        JMenuBar bar = mainWindow.getJMenuBar();
         bar.add(about);
-        JMenuItem frame = new JMenuItem("About");
-        about.add(frame);
-        JLabel label = new JLabel("About Window", JLabel.CENTER);
-        label.setAlignmentX(0);
-        label.setAlignmentY(0);
+        JMenuItem aboutFrame = new JMenuItem("About");
+        about.add(aboutFrame);
+        JLabel textInAbout = new JLabel("About Window", JLabel.CENTER);
+        textInAbout.setAlignmentX(0);
+        textInAbout.setAlignmentY(0);
 
-        frame.addActionListener(new ActionListener() {
+        aboutFrame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                f2.setSize(300,300);
-                f2.setResizable(false);
-                f2.setLocationRelativeTo(null);
-                f2.setVisible(true);
-                f2.add(label);
+                aboutWindow.setSize(300,300);
+                aboutWindow.setResizable(false);
+                aboutWindow.setLocationRelativeTo(null);
+                aboutWindow.setVisible(true);
+                aboutWindow.add(textInAbout);
             }
         });
     }

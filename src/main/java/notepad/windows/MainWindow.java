@@ -2,9 +2,7 @@ package notepad.windows;
 
 import notepad.features.Highlighter;
 
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Document;
-import javax.swing.text.JTextComponent;
+import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -20,15 +18,22 @@ import java.io.IOException;
  * @author Serven
  */
 public class MainWindow extends javax.swing.JFrame {
-
     private AboutWindow aboutWindow;
+    private ChangeFontSizeWindow changeFontSizeWindow;
     private String filename;
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
 
     public MainWindow() {
         initComponents();
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        changeFontSizeWindow = new ChangeFontSizeWindow(this);
         aboutWindow = new AboutWindow(this);
+    }
+
+    public void changeFontSize(int size) {
+        textArea.setFont(new Font("Courier", Font.BOLD, size));
     }
 
     @SuppressWarnings("unchecked")
@@ -188,14 +193,14 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
-    private void searchTextArea(JTextComponent textComp, String textString) {
-        removeHighLight(textComp);
+    private void searchTextArea(JTextComponent textComponent, String textString) {
+        removeHighLight(textComponent);
         if(textString.length() == 0)
             return;
 
         try {
-            javax.swing.text.Highlighter highlight = textComp.getHighlighter();
-            Document document = textComp.getDocument();
+            javax.swing.text.Highlighter highlight = textComponent.getHighlighter();
+            Document document = textComponent.getDocument();
             String text = document.getText(0, document.getLength());
 
             int position = 0;
@@ -245,7 +250,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void saveFileActionPerformed(java.awt.event.ActionEvent evt) {
         FileDialog fileDialog = new FileDialog(MainWindow.this, "Save File",
-                                FileDialog.SAVE);
+                FileDialog.SAVE);
         fileDialog.setVisible(true);
 
         if(!fileDialog.getFile().equals(null)) {
