@@ -1,7 +1,10 @@
 package notepad.windows;
 
+import notepad.features.ChangeFontSize;
 import notepad.features.Highlighter;
+import notepad.features.LineCounter;
 
+import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -13,13 +16,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+
 /**
  * Main Frame for Application
- * @author Serven
+ * @author msirghi
  */
 public class MainWindow extends javax.swing.JFrame {
     private AboutWindow aboutWindow;
-    private ChangeFontSizeWindow changeFontSizeWindow;
+    private ChangeFontSize changeFontSize;
     private String filename;
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
@@ -28,12 +32,13 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        changeFontSizeWindow = new ChangeFontSizeWindow(this);
+        changeFontSize = new ChangeFontSize(this);
         aboutWindow = new AboutWindow(this);
+        new LineCounter(textArea, jScrollPane1);
     }
 
     public void changeFontSize(int size) {
-        textArea.setFont(new Font("Courier", Font.BOLD, size));
+        textArea.setFont(new Font("Courier", Font.PLAIN, size));
     }
 
     @SuppressWarnings("unchecked")
@@ -176,7 +181,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
         searchTextArea(textArea, searchField.getText());

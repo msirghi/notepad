@@ -1,6 +1,6 @@
 package notepad;
 
-import notepad.windows.ChangeFontSizeWindow;
+import notepad.features.ChangeFontSize;
 import notepad.windows.MainWindow;
 
 import javax.swing.*;
@@ -12,10 +12,9 @@ import java.util.logging.Logger;
  * @author Serven
  */
 public class Application {
-    static Logger logger = Logger.getLogger(ChangeFontSizeWindow.class.getName());
+    private static Logger logger = Logger.getLogger(ChangeFontSize.class.getName());
 
     public static void main(String[] args) {
-        logger.info("Application started.");
         MainWindow window = new MainWindow();
         window.setTitle("Notepad 0.1");
         window.setBounds(0, 0, 700, 700);
@@ -23,6 +22,7 @@ public class Application {
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setVisible(true);
+        logger.info("Application started.");
     }
 
 }
