@@ -4,6 +4,7 @@ import notepad.features.ChangeFontSize;
 import notepad.features.Highlighter;
 import notepad.features.LineCounter;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
@@ -11,10 +12,11 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.*;
+import java.security.KeyStore;
 
 
 /**
@@ -29,13 +31,55 @@ public class MainWindow extends javax.swing.JFrame {
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
 
+    private void initShortcuts() {
+        cutText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
+        newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+        copyText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        pasteText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
+        saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
+    }
+
+    private void initIcons() {
+        try {
+            ImageIcon newFileIcon = new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/new.png")));
+            ImageIcon openFileIcon = new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/open.png")));
+            ImageIcon saveFileIcon = new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/save.png")));
+            ImageIcon cutFileIcon = new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/cut.png")));
+            ImageIcon copyFileIcon = new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/copy.png")));
+            ImageIcon pasteFileIcon = new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/paste.png")));
+            ImageIcon exitFileIcon = new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/exit.png")));
+
+            newFile.setIcon(newFileIcon);
+            saveFile.setIcon(saveFileIcon);
+            openFile.setIcon(openFileIcon);
+            cutText.setIcon(cutFileIcon);
+            copyText.setIcon(copyFileIcon);
+            pasteText.setIcon(pasteFileIcon);
+            exit.setIcon(exitFileIcon);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        initShortcuts();
+    }
+
     public MainWindow() {
         initComponents();
+        initIcons();
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         changeFontSize = new ChangeFontSize(this);
         aboutWindow = new AboutWindow(this);
         lineCounter = new LineCounter(textArea, jScrollPane1);
+
+        JToolBar toolBar = new JToolBar();
+        toolBar.setFloatable(false);
+
+        JButton toolbar_new = new JButton(new ImageIcon(this.getClass().getResource("src/main/res/new.png")));
+        toolbar_new.setToolTipText("Kek");
+        JMenuBar jMenuBar = new JMenuBar();
+        jMenuBar.add(toolbar_new);
     }
 
     public void changeFontSize(int size) {
