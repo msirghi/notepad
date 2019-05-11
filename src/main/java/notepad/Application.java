@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 /**
  * Starting Point
  *
- * @author Serven
+ * @author msirghi
  */
 public class Application {
     private static Logger logger = Logger.getLogger(ChangeFontSize.class.getName());
