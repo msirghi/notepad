@@ -24,6 +24,7 @@ import java.io.IOException;
 public class MainWindow extends javax.swing.JFrame {
     private AboutWindow aboutWindow;
     private ChangeFontSize changeFontSize;
+    private LineCounter lineCounter;
     private String filename;
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
@@ -34,11 +35,12 @@ public class MainWindow extends javax.swing.JFrame {
         textArea.setWrapStyleWord(true);
         changeFontSize = new ChangeFontSize(this);
         aboutWindow = new AboutWindow(this);
-        new LineCounter(textArea, jScrollPane1);
+        lineCounter = new LineCounter(textArea, jScrollPane1);
     }
 
     public void changeFontSize(int size) {
         textArea.setFont(new Font("Courier", Font.PLAIN, size));
+        lineCounter.getLines().setFont(new Font("Courier", Font.PLAIN, size));
     }
 
     @SuppressWarnings("unchecked")

@@ -11,6 +11,10 @@ public class LineCounter {
     private static JTextArea lines;
     private static JScrollPane jScrollPane1;
 
+    public JTextArea getLines() {
+        return lines;
+    }
+
     public LineCounter(JTextArea textArea, JScrollPane jScrollPane1) {
         LineCounter.textArea = textArea;
         LineCounter.jScrollPane1 = jScrollPane1;
