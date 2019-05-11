@@ -12,11 +12,10 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
-import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.security.KeyStore;
+import java.util.logging.Logger;
 
 
 /**
@@ -30,12 +29,13 @@ public class MainWindow extends javax.swing.JFrame {
     private String filename;
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
+    private static Logger logger = Logger.getLogger(ChangeFontSize.class.getName());
 
     private void initShortcuts() {
         cutText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
         newFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
         copyText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
-        pasteText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.CTRL_MASK));
+        pasteText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.CTRL_MASK));
         openFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         saveFile.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
         exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
@@ -61,25 +61,18 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        initShortcuts();
     }
 
     public MainWindow() {
         initComponents();
         initIcons();
+        initShortcuts();
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         changeFontSize = new ChangeFontSize(this);
         aboutWindow = new AboutWindow(this);
         lineCounter = new LineCounter(textArea, jScrollPane1);
 
-        JToolBar toolBar = new JToolBar();
-        toolBar.setFloatable(false);
-
-        JButton toolbar_new = new JButton(new ImageIcon(this.getClass().getResource("src/main/res/new.png")));
-        toolbar_new.setToolTipText("Kek");
-        JMenuBar jMenuBar = new JMenuBar();
-        jMenuBar.add(toolbar_new);
     }
 
     public void changeFontSize(int size) {
@@ -87,10 +80,7 @@ public class MainWindow extends javax.swing.JFrame {
         lineCounter.getLines().setFont(new Font("Courier", Font.PLAIN, size));
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         searchButton = new javax.swing.JButton();
         searchField = new javax.swing.JTextField();
@@ -111,17 +101,8 @@ public class MainWindow extends javax.swing.JFrame {
 
         searchButton.setText("Search");
         searchButton.setPreferredSize(new Dimension(70, 23));
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
-
-        searchField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchFieldActionPerformed(evt);
-            }
-        });
+        searchButton.addActionListener(this::searchButtonActionPerformed);
+        searchField.addActionListener(this::searchFieldActionPerformed);
 
         textArea.setColumns(20);
         textArea.setRows(5);
@@ -151,67 +132,37 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         newFile.setText("New");
-        newFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newFileActionPerformed(evt);
-            }
-        });
+        newFile.addActionListener(this::newFileActionPerformed);
         jMenu1.add(newFile);
 
         openFile.setText("Open");
-        openFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openFileActionPerformed(evt);
-            }
-        });
+        openFile.addActionListener(this::openFileActionPerformed);
         jMenu1.add(openFile);
 
         saveFile.setText("Save");
-        saveFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveFileActionPerformed(evt);
-            }
-        });
+        saveFile.addActionListener(this::saveFileActionPerformed);
         jMenu1.add(saveFile);
 
         exit.setText("Exit");
-        exit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exitActionPerformed(evt);
-            }
-        });
+        exit.addActionListener(this::exitActionPerformed);
         jMenu1.add(exit);
 
         jMenuBar1.add(jMenu1);
-
         jMenu2.setText("Edit");
 
         cutText.setText("Cut");
-        cutText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cutTextActionPerformed(evt);
-            }
-        });
+        cutText.addActionListener(this::cutTextActionPerformed);
         jMenu2.add(cutText);
 
         copyText.setText("Copy");
-        copyText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                copyTextActionPerformed(evt);
-            }
-        });
+        copyText.addActionListener(this::copyTextActionPerformed);
         jMenu2.add(copyText);
 
         pasteText.setText("Paste");
-        pasteText.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pasteTextActionPerformed(evt);
-            }
-        });
+        pasteText.addActionListener(this::pasteTextActionPerformed);
         jMenu2.add(pasteText);
 
         jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -274,31 +225,32 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void openFileActionPerformed(java.awt.event.ActionEvent evt) {
-        FileDialog fileDialog = new FileDialog(MainWindow.this, "Open File",
-                                FileDialog.LOAD);
-        fileDialog.setVisible(true);
-
-        if(!fileDialog.getFile().equals(null)) {
-            filename = fileDialog.getDirectory() + fileDialog.getFile();
-            setTitle(filename);
-        }
-
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
-            StringBuilder sb = new StringBuilder();
+            FileDialog fileDialog = new FileDialog(MainWindow.this, "Open File", FileDialog.LOAD);
+            fileDialog.setVisible(true);
 
-            String line = null;
-
-            while((line = reader.readLine()) != null) {
-                sb.append(line).append("\n");
-                textArea.setText(sb.toString());
+            if (!fileDialog.getFile().equals(null)) {
+                filename = fileDialog.getDirectory() + fileDialog.getFile();
+                setTitle(filename);
             }
-            reader.close();
-        } catch(IOException e) {
-            System.out.println("Error. File not found.");
-        }
+
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(filename));
+                StringBuilder sb = new StringBuilder();
+
+                reader.lines().forEach(line -> {
+                    sb.append(line).append("\n");
+                    textArea.setText(sb.toString());
+                });
+                reader.close();
+            } catch (IOException e) {
+                System.out.println("Error. File not found.");
+            }
+        } catch (NullPointerException e) {
+        logger.warning("No file selected!");
     }
 
+}
     private void saveFileActionPerformed(java.awt.event.ActionEvent evt) {
         FileDialog fileDialog = new FileDialog(MainWindow.this, "Save File",
                 FileDialog.SAVE);
@@ -327,8 +279,7 @@ public class MainWindow extends javax.swing.JFrame {
         String cutString = textArea.getSelectedText();
         StringSelection cutSelection = new StringSelection(cutString);
         clipboard.setContents(cutSelection, cutSelection);
-        textArea.replaceRange("", textArea.getSelectionStart(),
-                textArea.getSelectionEnd());
+        textArea.replaceRange("", textArea.getSelectionStart(), textArea.getSelectionEnd());
     }
 
     private void copyTextActionPerformed(java.awt.event.ActionEvent evt) {
@@ -340,19 +291,14 @@ public class MainWindow extends javax.swing.JFrame {
     private void pasteTextActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             Transferable pasteText = clipboard.getContents(MainWindow.this);
-            String sel = (String) pasteText
-                    .getTransferData(DataFlavor.stringFlavor);
-            textArea.replaceRange(sel, textArea.getSelectionStart(),
-                    textArea.getSelectionEnd());
+            String sel = (String) pasteText.getTransferData(DataFlavor.stringFlavor);
+            textArea.replaceRange(sel, textArea.getSelectionStart(), textArea.getSelectionEnd());
         } catch(Exception e) {
-            System.out.println("Error.");
+            System.out.println("Error in paste method.");
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -360,21 +306,10 @@ public class MainWindow extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
+        EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
     }
 
     private javax.swing.JMenuItem copyText;
@@ -392,5 +327,4 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton searchButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JTextArea textArea;
-    // End of variables declaration//GEN-END:variables
 }
