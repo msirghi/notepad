@@ -12,6 +12,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
@@ -30,6 +31,34 @@ public class MainWindow extends javax.swing.JFrame {
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
     private static Logger logger = Logger.getLogger(ChangeFontSize.class.getName());
+    private JMenuItem copyText;
+    private JMenuItem cutText;
+    private JMenuItem exit;
+    private JMenu jMenu1;
+    private JMenu jMenu2;
+    private JMenuBar jMenuBar1;
+    private JPanel jPanel1;
+    private JPanel statusPanel;
+    private JScrollPane jScrollPane1;
+    private JMenuItem newFile;
+    private JMenuItem openFile;
+    private JMenuItem pasteText;
+    private JMenuItem saveFile;
+    private JButton searchButton;
+    private JTextField searchField;
+    private JTextArea textArea;
+    private JTabbedPane jTabbedPane2;
+    private JButton newButton;
+    private JButton openButton;
+    private JButton saveButton;
+    private JButton undoButton;
+    private JButton copyButton;
+    private JButton cutButton;
+    private JButton pasteButton;
+    private JButton functionButton1;
+    private JButton functionButton2;
+    private JButton printButton;
+
 
     private void initShortcuts() {
         cutText.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.CTRL_MASK));
@@ -64,7 +93,7 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     public MainWindow() {
-        initComponents();
+        initializeComponents();
         initIcons();
         initShortcuts();
         textArea.setLineWrap(true);
@@ -72,7 +101,8 @@ public class MainWindow extends javax.swing.JFrame {
         changeFontSize = new ChangeFontSize(this);
         aboutWindow = new AboutWindow(this);
         lineCounter = new LineCounter(textArea, jScrollPane1);
-
+        jScrollPane1.setViewportView(textArea);
+        jTabbedPane2.addTab("Document 1", jScrollPane1);
     }
 
     public void changeFontSize(int size) {
@@ -80,25 +110,63 @@ public class MainWindow extends javax.swing.JFrame {
         lineCounter.getLines().setFont(new Font("Courier", Font.PLAIN, size));
     }
 
-    private void initComponents() {
-        jPanel1 = new javax.swing.JPanel();
-        searchButton = new javax.swing.JButton();
-        searchField = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textArea = new javax.swing.JTextArea();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        newFile = new javax.swing.JMenuItem();
-        openFile = new javax.swing.JMenuItem();
-        saveFile = new javax.swing.JMenuItem();
-        exit = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        cutText = new javax.swing.JMenuItem();
-        copyText = new javax.swing.JMenuItem();
-        pasteText = new javax.swing.JMenuItem();
+    private void featureComponents() {
+
+    }
+
+    private void initializeComponents() {
+        functionButton1 = new JButton();
+        functionButton2 = new JButton();
+        cutButton = new JButton();
+        pasteButton = new JButton();
+        copyButton = new JButton();
+        undoButton = new JButton();
+        printButton = new JButton();
+        statusPanel = new JPanel();
+        jTabbedPane2 = new JTabbedPane();
+        jPanel1 = new JPanel();
+        searchButton = new JButton();
+        searchField = new JTextField();
+        jScrollPane1 = new JScrollPane();
+        textArea = new JTextArea();
+        jMenuBar1 = new JMenuBar();
+        jMenu1 = new JMenu();
+        newFile = new JMenuItem();
+        openFile = new JMenuItem();
+        saveFile = new JMenuItem();
+        exit = new JMenuItem();
+        jMenu2 = new JMenu();
+        cutText = new JMenuItem();
+        copyText = new JMenuItem();
+        pasteText = new JMenuItem();
+        try {
+            openButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/open.png"))));
+            saveButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/save.png"))));
+            newButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/new.png"))));
+            copyButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/copy.png"))));
+            pasteButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/paste.png"))));
+            cutButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/cut.png"))));
+            undoButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/undo.png"))));
+            printButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/print.png"))));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
+        statusPanel.setLayout(statusPanelLayout);
+        statusPanelLayout.setHorizontalGroup(
+                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 0, Short.MAX_VALUE)
+        );
+        statusPanelLayout.setVerticalGroup(
+                statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 8, Short.MAX_VALUE)
+        );
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        featureComponents();
         searchButton.setText("Search");
         searchButton.setPreferredSize(new Dimension(70, 23));
         searchButton.addActionListener(this::searchButtonActionPerformed);
@@ -108,8 +176,8 @@ public class MainWindow extends javax.swing.JFrame {
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -128,6 +196,66 @@ public class MainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE))
         );
+
+        newButton.setContentAreaFilled(true);
+        openButton.setContentAreaFilled(true);
+        saveButton.setContentAreaFilled(true);
+        printButton.setContentAreaFilled(true);
+        cutButton.setContentAreaFilled(true);
+        copyButton.setContentAreaFilled(true);
+        pasteButton.setContentAreaFilled(true);
+        functionButton1.setContentAreaFilled(true);
+        functionButton2.setContentAreaFilled(true);
+
+        saveButton.setFocusable(false);
+        saveButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        saveButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        saveButton.addActionListener(this::saveFileActionPerformed);
+
+        openButton.setFocusable(false);
+        openButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        openButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        openButton.addActionListener(this::openFileActionPerformed);
+
+        newButton.setFocusable(false);
+        newButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        newButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        newButton.addActionListener(this::newFileActionPerformed);
+
+        printButton.setFocusable(false);
+        printButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        printButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        printButton.addActionListener(this::printButtonActionPerformed);
+
+        cutButton.setFocusable(false);
+        cutButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cutButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cutButton.addActionListener(this::cutTextActionPerformed);
+
+        pasteButton.setFocusable(false);
+        pasteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        pasteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        pasteButton.addActionListener(this::pasteTextActionPerformed);
+
+        copyButton.setFocusable(false);
+        copyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        copyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        copyButton.addActionListener(this::copyTextActionPerformed);
+
+        undoButton.setFocusable(false);
+        undoButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        undoButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        undoButton.addActionListener(this::undoButtonActionPerformed);
+
+        functionButton1.setFocusable(false);
+        functionButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        functionButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        functionButton1.addActionListener(this::functionButton1ActionPerformed);
+
+        functionButton2.setFocusable(false);
+        functionButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        functionButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        functionButton2.addActionListener(this::functionButton2ActionPerformed);
 
         jMenu1.setText("File");
 
@@ -165,19 +293,60 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
         setJMenuBar(jMenuBar1);
 
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTabbedPane2)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(newButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(openButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(pasteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(copyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(undoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(functionButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(functionButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+                        .addComponent(statusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(openButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(saveButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(newButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(printButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cutButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(pasteButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(copyButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(undoButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(functionButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(functionButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(statusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void closeButtonActionPerformed(ActionEvent evt) {
     }
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,6 +385,51 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void searchFieldActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+
+    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void openButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void cutButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void pasteButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void copyButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void undoButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void functionButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void functionButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
@@ -311,20 +525,4 @@ public class MainWindow extends javax.swing.JFrame {
         }
         EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
     }
-
-    private javax.swing.JMenuItem copyText;
-    private javax.swing.JMenuItem cutText;
-    private javax.swing.JMenuItem exit;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JMenuItem newFile;
-    private javax.swing.JMenuItem openFile;
-    private javax.swing.JMenuItem pasteText;
-    private javax.swing.JMenuItem saveFile;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JTextField searchField;
-    private javax.swing.JTextArea textArea;
 }
