@@ -16,7 +16,7 @@ public class Application {
 
     public static void main(String[] args) {
         MainWindow window = new MainWindow();
-        window.setTitle("Notepad 0.1");
+        window.setTitle("Notepad 0.2");
         window.setBounds(0, 0, 700, 700);
         window.setResizable(false);
         window.setLocationRelativeTo(null);
