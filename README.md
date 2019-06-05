@@ -13,3 +13,5 @@ Additional functionality:
 - tabs supported;
 - different shorcuts(see "Help" in application);
 - letter/word counter;
+
+Nightmode, as well as other features, will be added in the future updates.
