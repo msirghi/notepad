@@ -4,6 +4,7 @@ import notepad.features.ChangeFontSize;
 import notepad.windows.MainWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.logging.Logger;
 
 /**
@@ -21,7 +22,10 @@ public class Application {
         window.setResizable(false);
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.getContentPane().setBackground(Color.LIGHT_GRAY);
         window.setVisible(true);
+        ImageIcon icon = new ImageIcon("src/main/res/browse.png");
+        window.setIconImage(icon.getImage());
         logger.info("Application started.");
     }
 

@@ -8,11 +8,7 @@ import notepad.features.NewTab;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FileDialog;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -109,6 +105,7 @@ public class MainWindow extends JFrame {
         lineCounter = new LineCounter(textArea, jScrollPane1);
         jScrollPane1.setViewportView(textArea);
         jTabbedPane2.addTab("Document 1", jScrollPane1);
+        textArea.setBackground(Color.WHITE);
     }
 
     public void changeFontSize(int size) {
@@ -289,8 +286,8 @@ public class MainWindow extends JFrame {
                                 .addComponent(copyButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(undoButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(functionButton1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(functionButton2, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+//                                .addComponent(functionButton1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+//                                .addComponent(functionButton2, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -313,8 +310,9 @@ public class MainWindow extends JFrame {
                                                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
                                         .addComponent(undoButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(functionButton1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(functionButton2, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+//                                        .addComponent(functionButton1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+//                                        .addComponent(functionButton2, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        )
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTabbedPane2, GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -383,38 +381,35 @@ public class MainWindow extends JFrame {
 
     private void newFileActionPerformed(ActionEvent evt) {
         textArea.setText("");
-        setTitle("Notepad 0.1");
+        setTitle("Notepad 0.2");
         newTab = new NewTab(new JTextArea(), jTabbedPane2);
     }
 
     private void openFileActionPerformed(ActionEvent evt) {
-        try {
-            FileDialog fileDialog = new FileDialog(MainWindow.this, "Open File", FileDialog.LOAD);
-            fileDialog.setVisible(true);
-            if (!fileDialog.getFile().equals(null)) {
-                filename = fileDialog.getDirectory() + fileDialog.getFile();
-                setTitle(filename);
-            }
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(filename));
-                StringBuilder sb = new StringBuilder();
+        FileDialog fileDialog = new FileDialog(MainWindow.this, "Open File", FileDialog.LOAD);
+        fileDialog.setVisible(true);
 
-                reader.lines().forEach(line -> {
-                    sb.append(line).append("\n");
-                    newTab.getTextArea().setText(sb.toString());
-                });
-                reader.close();
-            } catch (IOException e) {
-                logger.warning("Error. File not found.");
+        if(!fileDialog.getFile().equals(null)) {
+            filename = fileDialog.getDirectory() + fileDialog.getFile();
+            setTitle(filename);
+        }
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while((line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+                textArea.setText(sb.toString());
             }
-        } catch (NullPointerException e) {
-        logger.warning("No file selected!");
+            reader.close();
+        } catch(IOException e) {
+            logger.warning("Error. File not found.");
+        }
     }
 
-}
     private void saveFileActionPerformed(ActionEvent evt) {
-        FileDialog fileDialog = new FileDialog(MainWindow.this, "Save File",
-                FileDialog.SAVE);
+        FileDialog fileDialog = new FileDialog(MainWindow.this, "Save File", FileDialog.SAVE);
         fileDialog.setVisible(true);
 
         if(!fileDialog.getFile().equals(null)) {

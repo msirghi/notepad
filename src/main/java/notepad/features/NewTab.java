@@ -20,7 +20,6 @@ public class NewTab extends JPanel {
 
     private void openNewTab() {
         jTabbedPane.addTab("Document " + ++tabCounter, new JScrollPane(textArea));
-
         jTabbedPane.setSelectedIndex(tabCounter - 1);
     }
 
