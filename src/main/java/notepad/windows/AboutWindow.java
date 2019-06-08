@@ -1,8 +1,8 @@
 package notepad.windows;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 public class AboutWindow extends JFrame {
     private MainWindow mainWindow;
@@ -18,6 +18,7 @@ public class AboutWindow extends JFrame {
         JMenu about = new JMenu("About");
         bar.add(about);
         JMenuItem aboutFrame = new JMenuItem("About");
+        aboutFrame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK));
         about.add(aboutFrame);
         JLabel textInAbout = new JLabel("About Window", JLabel.CENTER);
         textInAbout.setAlignmentX(0);
@@ -29,5 +30,6 @@ public class AboutWindow extends JFrame {
             aboutWindow.setVisible(true);
             aboutWindow.add(textInAbout);
         });
+        new HelpWindow(about);
     }
 }
