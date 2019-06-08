@@ -1,6 +1,6 @@
 Notepad written in Java.
 
-![alt text](https://raw.githubusercontent.com/msirghi/notepad/master/src/main/res/notepad_main.PNG)
+![alt text](https://raw.githubusercontent.com/msirghi/notepad/master/src/main/res/main.PNG)
 
 Created to see Java Swing in action.
 Supported basic functionality:
