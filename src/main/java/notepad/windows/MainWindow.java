@@ -221,6 +221,7 @@ public class MainWindow extends JFrame {
             cutButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/cut.png"))));
             undoButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/undo.png"))));
             printButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/print.png"))));
+            functionButton1 = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/find.png"))));
         } catch (IOException e) {
             logger.warning("Image was not found.");
         }
@@ -229,13 +230,10 @@ public class MainWindow extends JFrame {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
                 statusPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGap(0, 0, Short.MAX_VALUE)
-        );
+                        .addGap(0, 0, Short.MAX_VALUE));
         statusPanelLayout.setVerticalGroup(
                 statusPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGap(0, 8, Short.MAX_VALUE)
-        );
-
+                        .addGap(0, 8, Short.MAX_VALUE));
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         searchButton.setText("Search");
@@ -286,15 +284,14 @@ public class MainWindow extends JFrame {
                                 .addComponent(copyButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(undoButton, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-//                                .addComponent(functionButton1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(functionButton1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 //                                .addComponent(functionButton2, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
-                        .addComponent(statusPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                        .addComponent(statusPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -310,7 +307,7 @@ public class MainWindow extends JFrame {
                                                 .addComponent(searchField, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 22, GroupLayout.PREFERRED_SIZE))
                                         .addComponent(undoButton, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                                        .addComponent(functionButton1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(functionButton1, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 //                                        .addComponent(functionButton2, GroupLayout.Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         )
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -372,7 +369,16 @@ public class MainWindow extends JFrame {
     }
 
     private void functionButton1ActionPerformed(ActionEvent evt) {
-        // TODO add your handling code here:
+        String words[] = new String[0];
+        String characters = "Characters: 0";
+        if(!textArea.getText().isEmpty()) {
+            characters = "";
+            characters= "Characters: " + textArea.getText().length();
+            words= textArea.getText().split("\\s");
+        }
+        String result = "<html> " + characters + " <br/> Words: "+ words.length + "</html>";
+        JOptionPane.showMessageDialog(null, result,"Counter",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void functionButton2ActionPerformed(ActionEvent evt) {
