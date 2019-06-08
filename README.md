@@ -9,7 +9,7 @@ Supported basic functionality:
 - cut/copy/paste text;
 - change font size;
 
-![alt text](https://raw.githubusercontent.com/msirghi/notepad/master/src/main/res/notepad_find.PNG)
+![alt text](https://raw.githubusercontent.com/msirghi/notepad/master/src/main/res/word_find.PNG)
 
 Additional functionality:
 - search whatever text you need in file (it will be highlighted in whole file);
@@ -17,5 +17,8 @@ Additional functionality:
 - tabs supported;
 - different shorcuts(see "Help" in application);
 - letter/word counter;
+
+![alt text](https://raw.githubusercontent.com/msirghi/notepad/master/src/main/res/notepad_count.PNG)
+
 
 Nightmode, as well as other features, hopefully will be added in the future updates.
