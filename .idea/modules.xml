@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Java.iml" filepath="$PROJECT_DIR$/.idea/Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/betaNotepad.iml" filepath="$PROJECT_DIR$/.idea/modules/betaNotepad.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/betaNotepad.main.iml" filepath="$PROJECT_DIR$/.idea/modules/betaNotepad.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/betaNotepad.test.iml" filepath="$PROJECT_DIR$/.idea/modules/betaNotepad.test.iml" />
     </modules>
   </component>
 </project>
