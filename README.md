@@ -18,4 +18,4 @@ Additional functionality:
 - different shorcuts(see "Help" in application);
 - letter/word counter;
 
-Nightmode, as well as other features, will be added in the future updates.
+Nightmode, as well as other features, hopefully will be added in the future updates.
