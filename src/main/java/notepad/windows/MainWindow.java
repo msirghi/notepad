@@ -8,7 +8,11 @@ import notepad.features.NewTab;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.FileDialog;
+import java.awt.Font;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -17,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
@@ -24,42 +29,41 @@ import java.util.logging.Logger;
  * Main Frame for Application
  * @author msirghi
  */
-public class MainWindow extends javax.swing.JFrame {
+public class MainWindow extends JFrame {
     private AboutWindow aboutWindow;
     private ChangeFontSize changeFontSize;
     private LineCounter lineCounter;
     private String filename;
     private Clipboard clipboard = getToolkit().getSystemClipboard();
     private DefaultHighlighter.DefaultHighlightPainter highlighter = new Highlighter(Color.YELLOW);
-    private static Logger logger = Logger.getLogger(ChangeFontSize.class.getName());
+    private static Logger logger = Logger.getLogger(MainWindow.class.getName());
 
-    private JMenuItem copyText;
-    private JMenuItem cutText;
-    private JMenuItem exit;
-    private JMenu jMenu1;
-    private JMenu jMenu2;
-    private JMenuBar jMenuBar1;
-    private JPanel statusPanel;
-    private JScrollPane jScrollPane1;
-    private JMenuItem newFile;
-    private JMenuItem openFile;
-    private JMenuItem pasteText;
-    private JMenuItem saveFile;
-    private JButton searchButton;
-    private JTextField searchField;
-    private JTextArea textArea;
-    private JTabbedPane jTabbedPane2;
-    private JButton newButton;
-    private JButton openButton;
-    private JButton saveButton;
-    private JButton undoButton;
-    private JButton copyButton;
-    private JButton cutButton;
-    private JButton pasteButton;
-    private JButton functionButton1;
-    private JButton functionButton2;
-    private JButton printButton;
-
+    private JMenuItem copyText = new JMenuItem();
+    private JMenuItem cutText = new JMenuItem();
+    private JMenuItem exit = new JMenuItem();
+    private JMenu jMenu1 = new JMenu();
+    private JMenu jMenu2 = new JMenu();
+    private JMenuBar jMenuBar1 = new JMenuBar();
+    private JPanel statusPanel = new JPanel();
+    private JScrollPane jScrollPane1 = new JScrollPane();
+    private JMenuItem newFile = new JMenuItem();
+    private JMenuItem openFile = new JMenuItem();
+    private JMenuItem pasteText = new JMenuItem();
+    private JMenuItem saveFile = new JMenuItem();
+    private JButton searchButton = new JButton();
+    private JTextField searchField = new JTextField();
+    private JTextArea textArea = new JTextArea();
+    private JTabbedPane jTabbedPane2 = new JTabbedPane();
+    private JButton newButton = new JButton();
+    private JButton openButton = new JButton();
+    private JButton saveButton = new JButton();
+    private JButton undoButton = new JButton();
+    private JButton copyButton = new JButton();
+    private JButton cutButton = new JButton();
+    private JButton pasteButton = new JButton();
+    private JButton functionButton1 = new JButton();
+    private JButton functionButton2 = new JButton();
+    private JButton printButton = new JButton();
     private NewTab newTab;
 
     private void initShortcuts() {
@@ -211,29 +215,6 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void initializeComponents() {
-        functionButton1 = new JButton();
-        functionButton2 = new JButton();
-        cutButton = new JButton();
-        pasteButton = new JButton();
-        copyButton = new JButton();
-        undoButton = new JButton();
-        printButton = new JButton();
-        statusPanel = new JPanel();
-        jTabbedPane2 = new JTabbedPane();
-        searchButton = new JButton();
-        searchField = new JTextField();
-        jScrollPane1 = new JScrollPane();
-        textArea = new JTextArea();
-        jMenuBar1 = new JMenuBar();
-        jMenu1 = new JMenu();
-        newFile = new JMenuItem();
-        openFile = new JMenuItem();
-        saveFile = new JMenuItem();
-        exit = new JMenuItem();
-        jMenu2 = new JMenu();
-        cutText = new JMenuItem();
-        copyText = new JMenuItem();
-        pasteText = new JMenuItem();
         try {
             openButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/open.png"))));
             saveButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/save.png"))));
@@ -243,9 +224,8 @@ public class MainWindow extends javax.swing.JFrame {
             cutButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/cut.png"))));
             undoButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/undo.png"))));
             printButton = new JButton(new ImageIcon(ImageIO.read(new FileInputStream("src/main/res/print.png"))));
-
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warning("Image was not found.");
         }
 
         GroupLayout statusPanelLayout = new GroupLayout(statusPanel);
@@ -260,7 +240,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
 
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         searchButton.setText("Search");
         searchButton.setPreferredSize(new Dimension(70, 23));
         searchButton.addActionListener(this::searchButtonActionPerformed);
@@ -345,7 +325,7 @@ public class MainWindow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    private void searchButtonActionPerformed(ActionEvent evt) {
         searchTextArea(textArea, searchField.getText());
     }
 
@@ -376,7 +356,7 @@ public class MainWindow extends javax.swing.JFrame {
                 position += textString.length();
             }
         } catch (Exception e) {
-            System.out.println("Error with searchTextArea.");
+            logger.warning("Error with searchTextArea.");
         }
     }
 
@@ -407,21 +387,17 @@ public class MainWindow extends javax.swing.JFrame {
         newTab = new NewTab(new JTextArea(), jTabbedPane2);
     }
 
-    private void openFileActionPerformed(java.awt.event.ActionEvent evt) {
+    private void openFileActionPerformed(ActionEvent evt) {
         try {
             FileDialog fileDialog = new FileDialog(MainWindow.this, "Open File", FileDialog.LOAD);
             fileDialog.setVisible(true);
-
             if (!fileDialog.getFile().equals(null)) {
                 filename = fileDialog.getDirectory() + fileDialog.getFile();
                 setTitle(filename);
             }
-
             try {
                 BufferedReader reader = new BufferedReader(new FileReader(filename));
                 StringBuilder sb = new StringBuilder();
-
-                newTab = new NewTab(new JTextArea() ,jTabbedPane2);
 
                 reader.lines().forEach(line -> {
                     sb.append(line).append("\n");
@@ -429,7 +405,7 @@ public class MainWindow extends javax.swing.JFrame {
                 });
                 reader.close();
             } catch (IOException e) {
-                System.out.println("Error. File not found.");
+                logger.warning("Error. File not found.");
             }
         } catch (NullPointerException e) {
         logger.warning("No file selected!");
@@ -452,11 +428,12 @@ public class MainWindow extends javax.swing.JFrame {
             setTitle(filename);
             fileWriter.close();
         } catch(IOException e) {
-            System.out.println("Error occurred file.");
+            logger.warning("Error occurred file.");
         }
     }
 
     private void exitActionPerformed(ActionEvent evt) {
+        logger.info("Application stopped.");
         System.exit(0);
     }
 
@@ -479,7 +456,7 @@ public class MainWindow extends javax.swing.JFrame {
             String sel = (String) pasteText.getTransferData(DataFlavor.stringFlavor);
             textArea.replaceRange(sel, textArea.getSelectionStart(), textArea.getSelectionEnd());
         } catch(Exception e) {
-            System.out.println("Error in paste method.");
+            logger.warning("Error in paste method.");
         }
     }
 
@@ -492,7 +469,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         EventQueue.invokeLater(() -> new MainWindow().setVisible(true));
     }
